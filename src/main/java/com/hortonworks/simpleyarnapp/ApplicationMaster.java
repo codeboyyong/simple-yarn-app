@@ -38,8 +38,9 @@ public class ApplicationMaster {
     // Register with ResourceManager
     System.out.println("registerApplicationMaster 0");
     rmClient.registerApplicationMaster("", 0, "");
-    System.out.println("registerApplicationMaster 1");
-    
+//    System.out.println("registerApplicationMaster 1");
+//    rmClient.registerApplicationMaster("", 1, "");
+ 
     // Priority for worker containers - priorities are intra-application
     Priority priority = Records.newRecord(Priority.class);
     priority.setPriority(0);
@@ -83,7 +84,7 @@ public class ApplicationMaster {
     while (completedContainers < n) {
       AllocateResponse response = rmClient.allocate(completedContainers/n);
       for (ContainerStatus status : response.getCompletedContainersStatuses()) {
-        ++completedContainers;
+        completedContainers++;
         System.out.println("Completed container " + completedContainers);
       }
       Thread.sleep(100);
@@ -92,5 +93,6 @@ public class ApplicationMaster {
     // Un-register with ResourceManager
     rmClient.unregisterApplicationMaster(
         FinalApplicationStatus.SUCCEEDED, "", "");
+    System.exit(0);
   }
 }
